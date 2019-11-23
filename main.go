@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/itanhaemprev/api2/routers"
+	"github.com/itanhaemprev/api/routers"
 )
 
 func main() {

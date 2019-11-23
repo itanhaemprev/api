@@ -2,8 +2,8 @@ package models
 
 import (
 	"context"
-	"github.com/itanhaemprev/api2/database"
-	"github.com/leandrofreires/afiliate/util"
+	"github.com/itanhaemprev/api/database"
+	"github.com/itanhaemprev/api/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -60,7 +60,7 @@ func (u *User) GetUsers(page int64, limit int64) ([]User, error) {
 
 //CreateUser save on database user
 func (u *User) CreateUser(user User) (User, error) {
-	user.Password = util.HashAndSalt([]byte(user.Password))
+	user.Password = utils.HashAndSalt([]byte(user.Password))
 
 	now := primitive.NewDateTimeFromTime(time.Now())
 	user.CreatedAt = now

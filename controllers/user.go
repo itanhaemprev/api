@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/itanhaemprev/api2/models"
+	"github.com/itanhaemprev/api/models"
 	"net/http"
 	"strconv"
 )

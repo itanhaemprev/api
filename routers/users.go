@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/itanhaemprev/api2/controllers"
+	"github.com/itanhaemprev/api/controllers"
 )
 
 func UsersRouter( gin *gin.Engine) {
