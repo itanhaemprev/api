@@ -11,13 +11,11 @@ func GetUsers(gin *gin.Context) {
 	var user models.User
 	page, err := strconv.ParseInt(gin.Query("page"), 10, 64)
 	if err != nil {
-		gin.JSON(http.StatusBadRequest, err)
-		return
+		page = 0
 	}
 	limit, err := strconv.ParseInt(gin.Query("limit"), 10, 64)
 	if err != nil {
-		gin.JSON(http.StatusBadRequest, err)
-		return
+		limit = 100
 	}
 	users, err := user.GetUsers(page, limit)
 	if err != nil {

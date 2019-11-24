@@ -81,7 +81,7 @@ func (u *User) CreateUser(user User) (User, error) {
 func (u *User) UpdateUser(id string, user User) (User, error) {
 	idBson, err := primitive.ObjectIDFromHex(id)
 	if user.Password != "" {
-		user.Password = util.HashAndSalt([]byte(user.Password))
+		user.Password = utils.HashAndSalt([]byte(user.Password))
 	}
 	if err != nil {
 		return user, err
