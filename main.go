@@ -10,5 +10,6 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 	routers.UsersRouter(r)
+	routers.PostsRouter(r)
 	r.Run(":8080")
 }

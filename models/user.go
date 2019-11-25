@@ -2,29 +2,35 @@ package models
 
 import (
 	"context"
+	"time"
+
 	"github.com/itanhaemprev/api/database"
 	"github.com/itanhaemprev/api/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
+
 //UserCollection is a collections instanced
 var UserCollection *mongo.Collection
+
 func init() {
 	UserCollection = database.Db.Collection("users")
 }
+
+//User is a model
 type User struct {
-	Id         primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty" `
-	FirstName  string             `bson:"first_name,omitempty" json:"first_name,omitempty"`
-	LastName   string             `bson:"last_name,omitempty" json:"last_name,omitempty"`
-	Email      string             `bson:"email,omitempty" json:"email,omitempty"`
-	Password   string             `bson:"password,omitempty" json:"password,omitempty"`
+	ID         primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+	FirstName  string             `bson:"first_name,omitempty" json:"first_name,omitempty" binding:"required"`
+	LastName   string             `bson:"last_name,omitempty" json:"last_name,omitempty" binding:"required"`
+	Email      string             `bson:"email,omitempty" json:"email,omitempty" binding:"required"`
+	Password   string             `bson:"password,omitempty" json:"password,omitempty" binding:"required"`
 	Active     bool               `bson:"active,omitempty" json:"active,omitempty"`
 	CreatedAt  primitive.DateTime `bson:"created_at,omitempty" json:"created_at,omitempty"`
 	ModifiedAt primitive.DateTime `bson:"modified_at,omitempty" json:"modified_at,omitempty"`
 }
+
 //GetUsers return of database a list of users
 func (u *User) GetUsers(page int64, limit int64) ([]User, error) {
 	//ira receber os usuarios
@@ -88,6 +94,20 @@ func (u *User) UpdateUser(id string, user User) (User, error) {
 	}
 	_, err = UserCollection.UpdateOne(context.TODO(), bson.M{"_id": idBson}, bson.M{"$set": user, "$currentDate": bson.M{"modified_at": true}})
 
+	if err != nil {
+		return user, err
+	}
+	err = UserCollection.FindOne(context.TODO(), bson.M{"_id": idBson}).Decode(&user)
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}
+
+//GetUser return a user from db
+func (u *User) GetUser(id string) (User, error) {
+	var user User
+	idBson, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return user, err
 	}
