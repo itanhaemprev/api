@@ -6,7 +6,7 @@ import (
 )
 
 //UsersRouter is a router for user
-func UsersRouter(gin *gin.Engine) {
+func usersRouter(gin *gin.Engine) {
 	gin.GET("/users", controllers.GetUsers)
 	gin.GET("/users/:id", controllers.GetUser)
 	gin.POST("/users", controllers.CreateUser)

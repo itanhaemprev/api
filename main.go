@@ -8,8 +8,13 @@ import (
 
 func main() {
 	r := gin.Default()
+
+	//load midlewares
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
 	r.Use(cors.Default())
-	routers.UsersRouter(r)
-	routers.PostsRouter(r)
+	r.Static("/images", "./images")
+	r.StaticFile("favicon.ico", "./logo.png")
+	routers.APIRouter(r)
 	r.Run(":8080")
 }

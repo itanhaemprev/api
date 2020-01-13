@@ -117,3 +117,12 @@ func (u *User) GetUser(id string) (User, error) {
 	}
 	return user, nil
 }
+
+func (u User) FindByEmail(email string) (User, error) {
+	var user User
+	err := UserCollection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&user)
+	if err != nil {
+		return user, err
+	}
+	return user, nil
+}
