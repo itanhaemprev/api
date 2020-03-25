@@ -9,7 +9,7 @@ import (
 	"github.com/itanhaemprev/api/config"
 	"github.com/itanhaemprev/api/models"
 
-	jwt "github.com/appleboy/gin-jwt"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 )
 
