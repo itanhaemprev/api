@@ -43,9 +43,9 @@ func slug(s string) string {
 	return strings.ReplaceAll(strings.ToLower(s), " ", "-")
 }
 
-//GetPosts return []Post, err, paginator int64, limit int64
-func (p *Post) GetPosts(page int64, limit int64) ([]Post, error, int64, int64) {
-	var posts []Post
+//GetPosts return []Post, paginator int64, limit int64, error
+func (p *Post) GetPosts(page int64, limit int64) ([]Post, int64, int64, error) {
+	posts := make([]Post, 0)
 	//pular na paginacao
 	skip := int64(0)
 	if page > 0 {
@@ -57,21 +57,21 @@ func (p *Post) GetPosts(page int64, limit int64) ([]Post, error, int64, int64) {
 	cur, err := postCollection.Find(context.TODO(), bson.D{}, &findWithPaginate)
 
 	if err != nil {
-		return nil, err, 0, 0
+		return nil, 0, 0, err
 	}
 	defer cur.Close(context.TODO())
 	for cur.Next(context.TODO()) {
 		var post Post
 		err := cur.Decode(&post)
 		if err != nil {
-			return nil, err, 0, 0
+			return nil, 0, 0, err
 		}
 		posts = append(posts, post)
 	}
 	if err := cur.Err(); err != nil {
-		return nil, err, 0, 0
+		return nil, 0, 0, err
 	}
-	return posts, nil, total, totalPages
+	return posts, total, totalPages, nil
 }
 func (p *Post) GetPost() error {
 	result := postCollection.FindOne(context.TODO(), bson.M{"_id": p.ID})

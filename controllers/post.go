@@ -27,7 +27,7 @@ func GetPosts(c *gin.Context) {
 	if err != nil {
 		limit = 100
 	}
-	posts, err, total, totalPages := post.GetPosts(page, limit)
+	posts, total, totalPages, err := post.GetPosts(page, limit)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

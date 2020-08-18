@@ -34,7 +34,7 @@ type User struct {
 //GetUsers return of database a list of users
 func (u *User) GetUsers(page int64, limit int64) ([]User, error) {
 	//ira receber os usuarios
-	var users []User
+	users := make([]User, 0)
 	//pular na paginacao
 	skip := int64(0)
 
@@ -55,6 +55,7 @@ func (u *User) GetUsers(page int64, limit int64) ([]User, error) {
 		if err != nil {
 			return nil, err
 		}
+		result.Password = ""
 		users = append(users, result)
 	}
 
@@ -118,6 +119,7 @@ func (u *User) GetUser(id string) (User, error) {
 	return user, nil
 }
 
+//FindByEmail is used for middleware login
 func (u User) FindByEmail(email string) (User, error) {
 	var user User
 	err := UserCollection.FindOne(context.TODO(), bson.M{"email": email}).Decode(&user)

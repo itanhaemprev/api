@@ -10,8 +10,6 @@ func main() {
 	r := gin.Default()
 
 	//load midlewares
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
 	r.Use(cors.Default())
 	r.Static("/images", "./images")
 	r.StaticFile("favicon.ico", "./logo.png")
