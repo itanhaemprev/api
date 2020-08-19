@@ -81,6 +81,7 @@ func (u *User) CreateUser(user User) (User, error) {
 	if err != nil {
 		return user, err
 	}
+	user.Password = ""
 	return user, nil
 }
 
